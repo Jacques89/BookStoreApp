@@ -4,7 +4,6 @@ import { View, Text, SafeAreaView, TouchableOpacity, Image } from 'react-native'
 import { COLORS, FONTS, SIZES, icons, images } from '../constants'
 
 const Home = () => {
-
   const profileData = {
     name: 'Username',
     point: 200
@@ -81,9 +80,41 @@ const Home = () => {
             }}>
               {profile.point} points
             </Text>
-
            </View>
         </TouchableOpacity>
+      </View>
+    )
+  }
+
+  function renderButtonSection() {
+    return(
+      <View style={{ flex: 1, justifyContent: 'center', padding: SIZES.padding}}>
+        <View style={{ flexDirection: 'row',  height: 70, 
+        backgroundColor: COLORS.secondary, borderRadius: SIZES.radius}}>
+          {/* Claim */}
+          <TouchableOpacity 
+            style={{ flex: 1 }}
+            onPress={() => {
+              console.log('Claim')
+            }}>
+              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center',
+              justifyContent: 'center'}}>
+                <Image 
+                  source={icons.claim_icon}
+                  resizeMode='contain'
+                  style={{ 
+                    width: 30,
+                    height: 30
+                  }}
+                />
+                <Text style={{ marginLeft: SIZES.base, ...FONTS.body3, 
+                color: COLORS.white }}>
+                  Claim!
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+        </View>
       </View>
     )
   }
@@ -93,6 +124,7 @@ const Home = () => {
       {/* Header Section */}
       <View style={{ height: 200 }}>
         {renderHeader(profile)}
+        {renderButtonSection()}
       </View>
     </SafeAreaView>
   )

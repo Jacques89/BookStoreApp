@@ -124,8 +124,35 @@ const Home = () => {
     }
   ]
 
+  const categoriesData = () => [
+    {
+      id: 1,
+      categoryName: 'Best Seller',
+      books: [
+        bookOtherWordsForHome, bookTheMetropolis, bookTheTinyDragon
+      ]
+    },
+    {
+      id: 2,
+      categoryName: 'The Latest',
+      books: [
+        bookTheMetropolis
+      ]
+    },
+    {
+      id: 3,
+      categoryName: 'Coming Soon',
+      books: [
+        bookTheTinyDragon
+      ]
+    },
+  ]
+
   const [profile, setProfile] = useState(profileData)
-  const [books, setBooks] = useState(booksData)
+  const [books, setBooksData] = useState(booksData)
+  const [categories, setCategories] = useState(categoriesData)
+  const [selectedCategory, setSelectedCategory] = useState(1)
+
 
   function renderHeader(profile) {
     return(
@@ -335,6 +362,45 @@ const Home = () => {
             }}
           />
           {/* Book Info */}
+          <View style={{ marginTop: SIZES.radius, flexDirection: 'row', alignItems: 'center' }}>
+            <Image 
+              source={icons.clock_icon}
+              style={{
+                width: 20,
+                height: 20,
+                tintColor: COLORS.lightGray
+              }}
+            />
+            <Text 
+              style={{ 
+                marginLeft: 5,
+                ...FONTS.body3,
+                color: COLORS.lightGray
+              }}
+            >
+              {item.lastRead}
+            </Text>
+
+            <Image 
+              source={icons.page_icon}
+              style={{
+                marginLeft: SIZES.radius,
+                width: 20,
+                height: 20,
+                tintColor: COLORS.lightGray
+              }}
+            />
+
+            <Text 
+              style={{
+                marginLeft: 5,
+                ...FONTS.body3,
+                color: COLORS.lightGray
+              }}
+            >
+              {item.completion}
+            </Text>
+          </View>
         </TouchableOpacity>
       )
     }
@@ -381,6 +447,38 @@ const Home = () => {
     )
   }
 
+  function renderCategoryHeader() {
+    const renderItem = ({ item }) => {
+      return(
+        <TouchableOpacity
+          style={{ flex: 1, marginRight: SIZES.padding}}
+          onPress={() => setSelectedCategory(item.id)}
+        >
+          {
+            selectedCategory == item.id && 
+            <Text style={{ ...FONTS.h2, color: COLORS.white }}>{item.categoryName}</Text>
+          }
+          {
+            selectedCategory != item.id && 
+            <Text style={{ ...FONTS.h2, color: COLORS.lightGray }}>{item.categoryName}</Text>
+          }
+        </TouchableOpacity>
+      )
+    }
+
+    return(
+      <View style={{ flex: 1, paddingLeft: SIZES.padding }}>
+        <FlatList 
+          data={categories}
+          showsHorizontalScrollIndicator={false}
+          renderItem={renderItem}
+          keyExtractor={item => `${item.id}`}
+          horizontal
+        />
+      </View>
+    )
+  }
+
   return(
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.black }}>
       {/* Header Section */}
@@ -393,10 +491,14 @@ const Home = () => {
       <ScrollView style={{ marginTop: SIZES.radius }}>
         {/* Books Section */}
         <View>
-          {renderBookSection(booksData)}
+          {renderBookSection(books)}
         </View>
         {/* Categories Section */}
-
+        <View style={{ marginTop: SIZES.padding }}>
+          <View>
+            {renderCategoryHeader()}
+          </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   )

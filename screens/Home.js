@@ -149,7 +149,7 @@ const Home = () => {
   ]
 
   const [profile, setProfile] = useState(profileData)
-  const [books, setBooksData] = useState(booksData)
+  const [books, setBooks] = useState(booksData)
   const [categories, setCategories] = useState(categoriesData)
   const [selectedCategory, setSelectedCategory] = useState(1)
 
@@ -479,6 +479,118 @@ const Home = () => {
     )
   }
 
+  function renderCategoryData() {
+    var books = []
+
+    let selectedCategoryBooks = categories.filter(category => category.id == selectedCategory)
+
+    if(selectedCategoryBooks.length > 0) {
+      books = selectedCategoryBooks[0].books
+    }
+
+    const renderItem = ({ item }) => {
+      return(
+        <View style={{ marginVertical: SIZES.base }}>
+          <TouchableOpacity 
+            style={{
+              flex: 1,
+              flexDirection: 'row'
+            }}
+            onPress={() => console.log('Category Data')}
+          >
+            {/* Book Cover */}
+            <Image 
+              source={item.bookCover}
+              resizeMode='cover'
+              style={{
+                width: 100,
+                height: 150,
+                borderRadius: 10
+              }}
+            />
+
+            <View style={{ flex: 1, marginLeft: SIZES.radius}}>
+              {/* Book name and author */}
+              <View>
+                <Text 
+                  style={{ 
+                    paddingRight: SIZES.padding,
+                    ...FONTS.h2,
+                    color: COLORS.white
+                  }}
+                >
+                  {item.bookName}
+                </Text>
+                <Text
+                  style={{
+                    ...FONTS.h3,
+                    color: COLORS.lightGray
+                  }}
+                >
+                  {item.author}
+                </Text>
+              </View>
+              
+              {/* Book Info */}
+              <View style={{ flexDirection: 'row', marginTop: SIZES.radius}}>
+                <Image 
+                  source={icons.page_filled_icon}
+                  resizeMode='contain'
+                  style={{
+                    width: 20,
+                    height: 20,
+                    tintColor: COLORS.lightGray
+                  }}
+                />
+                <Text 
+                  style={{
+                    ...FONTS.body4,
+                    color: COLORS.lightGray,
+                    paddingHorizontal: SIZES.radius
+                  }}
+                >
+                  {item.pageNo}
+                </Text>
+                
+                <Image 
+                  source={icons.read_icon}
+                  resizeMode='contain'
+                  style={{
+                    width: 20,
+                    height: 20,
+                    tintColor: COLORS.lightGray
+                  }}
+                />
+                <Text 
+                  style={{
+                    ...FONTS.body4,
+                    color: COLORS.lightGray,
+                    paddingHorizontal: SIZES.radius
+                  }}
+                >
+                  {item.read}
+                </Text>
+              </View>
+
+            </View>
+
+          </TouchableOpacity>
+        </View>
+      )
+    }
+
+    return(
+      <View style={{ flex: 1, marginTop: SIZES.radius, paddingLeft: SIZES.padding }}>
+        <FlatList 
+          data={books}
+          renderItem={renderItem}
+          keyExtractor={item => `${item.id}`}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
+    )
+  }
+
   return(
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.black }}>
       {/* Header Section */}
@@ -497,6 +609,9 @@ const Home = () => {
         <View style={{ marginTop: SIZES.padding }}>
           <View>
             {renderCategoryHeader()}
+          </View>
+          <View>
+            {renderCategoryData()}
           </View>
         </View>
       </ScrollView>

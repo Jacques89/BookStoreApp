@@ -21,7 +21,7 @@ const LineDivider = () => {
   )
 }
 
-const Home = () => {
+const Home = ({ navigation }) => {
   const profileData = {
     name: 'Username',
     point: 200
@@ -340,7 +340,6 @@ const Home = () => {
   }
 
   function renderBookSection(booksData) {
-
     const renderItem = ({item, index}) => {
       return(
         <TouchableOpacity 
@@ -349,7 +348,9 @@ const Home = () => {
             marginLeft: index == 0 ? SIZES.padding: 0,
             marginRight: SIZES.radius
           }}
-          onPress={() => console.log('My Book')}
+          onPress={() => navigation.navigate('BookDetail', {
+            book: item
+          })}
         >
           {/* Book Cover */}
           <Image 
@@ -480,7 +481,7 @@ const Home = () => {
   }
 
   function renderCategoryData() {
-    var books = []
+    let books = []
 
     let selectedCategoryBooks = categories.filter(category => category.id == selectedCategory)
 
@@ -496,7 +497,9 @@ const Home = () => {
               flex: 1,
               flexDirection: 'row'
             }}
-            onPress={() => console.log('Category Data')}
+            onPress={() => navigation.navigate('BookDetail', {
+              book: item
+            })}
           >
             {/* Book Cover */}
             <Image 
@@ -571,9 +574,101 @@ const Home = () => {
                   {item.read}
                 </Text>
               </View>
-
+              
+              {/* Genre */}
+              <View
+                style={{ 
+                  flexDirection: 'row',
+                  marginTop: SIZES.radius
+                }}
+              >
+                {
+                  item.genre.includes('Adventure') && 
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      padding: SIZES.base,
+                      marginRight: SIZES.base,
+                      backgroundColor: COLORS.darkGreen,
+                      height: 40,
+                      borderRadius: SIZES.radius
+                    }}
+                  >
+                    <Text
+                      style={{
+                        ...FONTS.body4,
+                        color: COLORS.lightGreen
+                      }}
+                    >
+                      Adventure
+                    </Text>
+                  </View>
+                }
+                {
+                  item.genre.includes('Romance') && 
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      padding: SIZES.base,
+                      marginRight: SIZES.base,
+                      backgroundColor: COLORS.darkRed,
+                      height: 40,
+                      borderRadius: SIZES.radius
+                    }}
+                  >
+                    <Text
+                      style={{
+                        ...FONTS.body4,
+                        color: COLORS.lightRed
+                      }}
+                    >
+                      Romance
+                    </Text>
+                  </View>
+                }
+                {
+                  item.genre.includes('Romance') && 
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      padding: SIZES.base,
+                      marginRight: SIZES.base,
+                      backgroundColor: COLORS.darkBlue,
+                      height: 40,
+                      borderRadius: SIZES.radius
+                    }}
+                  >
+                    <Text
+                      style={{
+                        ...FONTS.body4,
+                        color: COLORS.lightBlue
+                      }}
+                    >
+                      Drama
+                    </Text>
+                  </View>
+                }
+              </View>
             </View>
+          </TouchableOpacity>
 
+          {/* Bookmark Button */}
+          <TouchableOpacity
+            style={{ position: 'absolute', top: 5, right: 15 }}
+            onPress={() => console.log('Bookmark')}
+          >
+            <Image 
+              source={icons.bookmark_icon}
+              resizeMode='contain'
+              style={{
+                width: 25,
+                height: 25,
+                tintColor: COLORS.lightGray
+              }}
+            />
           </TouchableOpacity>
         </View>
       )

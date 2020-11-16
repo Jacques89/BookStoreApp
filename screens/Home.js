@@ -49,7 +49,7 @@ const Home = ({ navigation }) => {
     There are new friends, a whole new family, and a school musical that 
     Jude might just try out for. Maybe America, too, is a place where Jude can be 
     seen as she really is`,
-    backgroundColor: 'rgba(247, 239, 219, 0.9',
+    backgroundColor: 'rgba(247, 239, 219, 0.9)',
     navTintColor: '#000'
   }
 
@@ -81,7 +81,7 @@ const Home = ({ navigation }) => {
     funny and touching adventure story, a tour-de-force of imagination that
     trenchantly explores our relationships to the cities around us and the 
     technologies guiding us into the future.`,
-    backgroundColor: 'rgba(247, 239, 219, 0.9',
+    backgroundColor: 'rgba(247, 239, 219, 0.9)',
     navTintColor: '#000'
   }
 
@@ -102,7 +102,7 @@ const Home = ({ navigation }) => {
     uniqueness through drawing, sketching or doodling, this sketch book is filled
     with 110 high quality blank pages for creations. Add some fun markers, crayons,
     and art supplies and you have the perfect, easy gift for kids!`,
-    backgroundColor: 'rgba(119, 77, 143, 0.9',
+    backgroundColor: 'rgba(119, 77, 143, 0.9)',
     navTintColor: '#FFF'
   }
 

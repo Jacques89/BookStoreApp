@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, ImageBackground, TouchableOpacity, Image } from 'react-native'
+import { View, Text, ImageBackground, TouchableOpacity, Image, Animated, ScrollView } from 'react-native'
 import { COLORS, SIZES, icons, FONTS } from '../constants'
 
 const LineDivider = () => {
@@ -20,6 +20,11 @@ const LineDivider = () => {
 const BookDetail = ({ route, navigation }) => {
   const [book, setBook] = useState(null)
 
+  const [scrollViewWholeHeight, setScrollViewWholeHeight] = useState(1)
+  const [scrollViewVisibleHeight, setScrollViewVisibleHeight] = useState(0)
+
+  const indicator = new Animated.Value(0)
+  
   useEffect(() => {
     let { book } = route.params
     setBook(book)
@@ -184,7 +189,61 @@ const BookDetail = ({ route, navigation }) => {
   }
 
   function renderBookDescription() {
-    
+
+    const indicatorSize = scrollViewWholeHeight > scrollViewVisibleHeight ?
+    scrollViewVisibleHeight * scrollViewVisibleHeight / scrollViewWholeHeight :
+    scrollViewVisibleHeight
+
+    const difference = scrollViewVisibleHeight > indicatorSize ? scrollViewVisibleHeight - indicatorSize : 1
+
+    return(
+      <View style={{ flex: 1, flexDirection: 'row', padding: SIZES.padding }}>
+        {/* Custom ScrollBar */}
+        <View style={{ width: 4, height: '100%', backgroundColor: COLORS.gray1 }}>
+          <Animated.View 
+            style={{
+              width: 4,
+              height: indicatorSize,
+              backgroundColor: COLORS.lightGray4,
+              transform: [{
+                translateY: Animated.multiply(
+                  indicator,
+                  scrollViewVisibleHeight / scrollViewWholeHeight).
+                  interpolate({
+                    inputRange: [0, difference],
+                    outputRange: [0, difference],
+                    extrapolate: 'clamp'
+                  })
+              }]
+            }}
+          />
+        </View>
+ 
+
+        <ScrollView 
+          contentContainerStyle={{ paddingLeft: SIZES.padding2 }}
+          showsVerticalScrollIndicator={false}
+          scrollEventThrottle={16}
+          onContentSizeChange={(width, height) => {
+            setScrollViewWholeHeight(height)
+          }}
+          onLayout={({ nativeEvent: { layout: { x, y, width, height } } }) => {
+            setScrollViewVisibleHeight(height)
+          }}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: indicator } } }],
+            { useNativeDriver: false }
+          )}
+        >
+          <Text style={{ ...FONTS.h2, color: COLORS.white, marginBottom: SIZES.padding}}>
+            Description
+          </Text>
+          <Text style={{...FONTS.body2, color: COLORS.lightGray }}>
+            {book.description}
+          </Text>
+        </ScrollView>
+      </View>
+    )
   }
   
   if(book) {
@@ -201,9 +260,7 @@ const BookDetail = ({ route, navigation }) => {
         </View>
 
         {/* Buttons */}
-        <View style={{ height: 70 }}>
-
-        </View>
+        <View style={{ height: 70 }}></View>
       </View>
     )
   } else {

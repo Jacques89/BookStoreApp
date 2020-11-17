@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, ImageBackground, TouchableOpacity, Image, Animated, ScrollView } from 'react-native'
+import { 
+  View, 
+  Text, 
+  ImageBackground, 
+  TouchableOpacity, 
+  Image, 
+  Animated, 
+  ScrollView 
+} from 'react-native'
 import { COLORS, SIZES, icons, FONTS } from '../constants'
 
 const LineDivider = () => {
@@ -189,12 +197,12 @@ const BookDetail = ({ route, navigation }) => {
   }
 
   function renderBookDescription() {
-
     const indicatorSize = scrollViewWholeHeight > scrollViewVisibleHeight ?
     scrollViewVisibleHeight * scrollViewVisibleHeight / scrollViewWholeHeight :
     scrollViewVisibleHeight
 
-    const difference = scrollViewVisibleHeight > indicatorSize ? scrollViewVisibleHeight - indicatorSize : 1
+    const difference = scrollViewVisibleHeight > indicatorSize ? 
+    scrollViewVisibleHeight - indicatorSize : 1
 
     return(
       <View style={{ flex: 1, flexDirection: 'row', padding: SIZES.padding }}>
@@ -219,7 +227,7 @@ const BookDetail = ({ route, navigation }) => {
           />
         </View>
  
-
+        {/* Description */}
         <ScrollView 
           contentContainerStyle={{ paddingLeft: SIZES.padding2 }}
           showsVerticalScrollIndicator={false}
@@ -245,6 +253,52 @@ const BookDetail = ({ route, navigation }) => {
       </View>
     )
   }
+
+  function renderBottomButton() {
+    return(
+      <View style={{ flex: 1, flexDirection: 'row'}}>
+        {/* Bookmark */}
+        <TouchableOpacity
+          style={{
+            width: 60,
+            backgroundColor: COLORS.secondary,
+            marginLeft: SIZES.padding,
+            marginVertical: SIZES.base,
+            borderRadius: SIZES.radius,
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          onPress={() => console.log('Bookmark')}
+        >
+          <Image 
+            source={icons.bookmark_icon}
+            resizeMode='contain'
+            style={{
+              width: 25,
+              height: 25,
+              tintColor: COLORS.lightGray2
+            }}
+          />
+        </TouchableOpacity>
+
+        {/* Start Reading */}
+        <TouchableOpacity
+          style={{
+            flex: 1,
+            backgroundColor: COLORS.primary,
+            marginHorizontal: SIZES.base,
+            marginVertical: SIZES.base,
+            borderRadius: SIZES.radius,
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          onPress={() => console.log('Start Reading')}
+        >
+          <Text style={{ ...FONTS.h2, color: COLORS.white }}>Start Reading</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
   
   if(book) {
     return(
@@ -260,7 +314,9 @@ const BookDetail = ({ route, navigation }) => {
         </View>
 
         {/* Buttons */}
-        <View style={{ height: 70 }}></View>
+        <View style={{ height: 70, marginBottom: 30}}>
+          {renderBottomButton()}
+        </View>
       </View>
     )
   } else {

@@ -290,7 +290,7 @@ const Home = ({ navigation }) => {
                   color: COLORS.white
                 }}
               >
-                Get Point
+                Points
               </Text>
             </View>
           </TouchableOpacity>
@@ -330,7 +330,7 @@ const Home = ({ navigation }) => {
                   ...FONTS.body4, 
                   color: COLORS.white
                 }}
-              >My Card
+              >Card
               </Text>
             </View>
           </TouchableOpacity>
@@ -485,7 +485,7 @@ const Home = ({ navigation }) => {
 
     let selectedCategoryBooks = categories.filter(category => category.id == selectedCategory)
 
-    if(selectedCategoryBooks.length > 0) {
+    if (selectedCategoryBooks.length > 0) {
       books = selectedCategoryBooks[0].books
     }
 

@@ -6,7 +6,8 @@ import {
   TouchableOpacity, 
   Image, 
   Animated, 
-  ScrollView 
+  ScrollView, 
+  Platform,
 } from 'react-native'
 import { COLORS, SIZES, icons, FONTS } from '../constants'
 
@@ -71,7 +72,7 @@ const BookDetail = ({ route, navigation }) => {
           style={{ 
             flexDirection: 'row', 
             paddingHorizontal: SIZES.radius, 
-            height: 80, 
+            height: Platform.OS === 'ios' ? 80 : 40,  
             alignItems: 'flex-end',
           }}
         >
@@ -137,6 +138,7 @@ const BookDetail = ({ route, navigation }) => {
           style={{ 
             flex: 1.8,
             alignItems: 'center',
+            marginTop: 5,
             justifyContent: 'center'
            }}
         >
@@ -176,7 +178,7 @@ const BookDetail = ({ route, navigation }) => {
               {book.pageNo}
             </Text>
             <Text style={{ ...FONTS.body4, color: COLORS.white }}>
-              Page Numbers
+              Page No.
             </Text>
           </View>
 
@@ -216,8 +218,8 @@ const BookDetail = ({ route, navigation }) => {
               transform: [{
                 translateY: Animated.multiply(
                   indicator,
-                  scrollViewVisibleHeight / scrollViewWholeHeight).
-                  interpolate({
+                  scrollViewVisibleHeight / scrollViewWholeHeight)
+                  .interpolate({
                     inputRange: [0, difference],
                     outputRange: [0, difference],
                     extrapolate: 'clamp'
